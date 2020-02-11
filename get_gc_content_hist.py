@@ -1,27 +1,27 @@
 #!/usr/bin/python3
-#####################################################################################
-### Get GC Content                                                                ###
-### Usage: get_gc_content.pl -i <fasta input file> -o <tab delimited output file> ###
-### This program reads a fasta file and returns a tab delimited file with:        ###
-### column 1 = header (every thing between > and new line)                        ###
-### column 2 = %gc content for the fasta entry                                    ###
-### column 3 = total count of letters (upper or lower case)                       ###
-### column 4 = total count of Gs (or gs)                                          ###
-### column 5 = total count of Cs (or cs)                                          ###
-### column 6 = total count of As (or as)                                          ###
-### column 7 = total count of Ts (or ts)                                          ###
-###                                                                               ###
-### Jennifer Meneghin                                                             ###
-### 01/20/2020                                                                    ###
-###                                                                               ###
-### Update:                                                                       ###
-### This script now also displays a histogram of % GC Content and a line graph    ###
-### of nucleotide counts                                                          ###
-###                                                                               ###
-### Jennifer Meneghin                                                             ###
-### 02/06/2020                                                                    ###
-###                                                                               ###
-#####################################################################################
+##########################################################################################
+### Get GC Content                                                                     ###
+### Usage: get_gc_content_hist.py -i <fasta input file> -o <tab delimited output file> ###
+### This program reads a fasta file and returns a tab delimited file with:             ###
+### column 1 = header (every thing between > and new line)                             ###
+### column 2 = %gc content for the fasta entry                                         ###
+### column 3 = total count of letters (upper or lower case)                            ###
+### column 4 = total count of Gs (or gs)                                               ###
+### column 5 = total count of Cs (or cs)                                               ###
+### column 6 = total count of As (or as)                                               ###
+### column 7 = total count of Ts (or ts)                                               ###
+###                                                                                    ###
+### Jennifer Meneghin                                                                  ###
+### 01/20/2020                                                                         ###
+###                                                                                    ###
+### Update:                                                                            ###
+### This script now also displays a histogram of % GC Content and a line graph         ###
+### of nucleotide counts                                                               ###
+###                                                                                    ###
+### Jennifer Meneghin                                                                  ###
+### 02/11/2020                                                                         ###
+###                                                                                    ###
+##########################################################################################
 
 import re, sys, getopt
 import numpy as np
