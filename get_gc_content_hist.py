@@ -24,13 +24,12 @@
 ##########################################################################################
 
 import re, sys, getopt
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-#################
+#----------------
 #Process Sequence
-#################
+#----------------
 def process_seq(seq):
     seq = seq.upper()
     acount = len(re.findall("A",seq))
@@ -45,9 +44,9 @@ def process_seq(seq):
         gccontent = 0
     return [gccontent, totalcount, gcount, ccount, acount, tcount]
 
-###############
+#--------------
 #The Main Event
-###############
+#--------------
 def main(argv):
 
     #---------------------------
@@ -70,9 +69,9 @@ def main(argv):
         elif opt in ("-o", "--ofile"):
             out_file = arg
 
-    #----------------------------------
-    #Open Files for reading and writing
-    #----------------------------------
+    #---------------------
+    #Open File for reading
+    #---------------------
     try:
         IN = open(in_file,"r")
     except FileNotFoundError:
@@ -95,17 +94,24 @@ def main(argv):
         else:
             seq = seq + line
     gcresults[hid] = process_seq(seq)
+
+    #---------------------
+    #Write results to file
+    #---------------------
     df = pd.DataFrame(gcresults,index=["%GC Content","Total Count","G Count","C Count","A Count","T Count"])
     df.T.to_csv(out_file,sep='\t')
     IN.close()
 
-    #-------------------------------
-    #Create and Write Histogram Plot
-    #-------------------------------
+    #---------------------------------
+    #Create and Display Histogram Plot
+    #---------------------------------
     plt.hist(df.loc['%GC Content'])
     plt.title('GC Content Histogram')
     plt.show()
 
+    #-----------------------------
+    #Create and Display Line Graph
+    #-----------------------------
     plt.plot(df.loc['A Count'], label='A')
     plt.plot(df.loc['C Count'], label='C')
     plt.plot(df.loc['G Count'], label='G')
