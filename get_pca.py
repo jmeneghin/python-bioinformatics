@@ -50,9 +50,9 @@ def main(argv):
         elif opt in ("-o", "--ofile"):
             out_file = arg
 
-    #----------------------------------
-    #Open Files for reading and writing
-    #----------------------------------
+    #---------------------
+    #Open File for reading
+    #---------------------
     try:
         df = pd.read_csv(in_file,sep='\t')
         print("\nParameters:\ndata file = "+in_file)
@@ -62,13 +62,10 @@ def main(argv):
         print(usage())
         sys.exit(2)
 
-    #--------------
-    #The main event
-    #--------------
-    #*** add in optional normalization
-
+    #--------------------------------------------------------------------
     #Get the First Column from the File and Put in Dictionary with Colors
-    colors = ['red','orange','yellow','green','turquoise','blue','purple','pink']
+    #--------------------------------------------------------------------
+    colors = ['red','green','orange','blue','yellow','purple','pink','turquoise']
     groups = {}
     bigarray = df.to_numpy()
     i = 0
@@ -81,17 +78,18 @@ def main(argv):
                 i = 0
     print("Number of groups found = "+str(len(groups)))
 
-
+    #-------------
     #Calculate PCA
+    #-------------
     pca = PCA(n_components=2)
     bignums = bigarray[:,1:]
     pca.fit(bignums)
     bnt = pca.transform(bignums)
     df_pca = pd.DataFrame(bnt.T, index=['PC1','PC2'])
-    #print(bigarray[:,:])
-    #print(df_pca) 
     
+    #----------------------------------
     #Display PCA (first two components)
+    #----------------------------------
     fig = plt.figure()
     ax1 = fig.add_subplot(111)
     my_patches = []
@@ -109,8 +107,11 @@ def main(argv):
     ax1.set_title('Two Dimensional PCA of '+in_file+'\n(Variance Explained = '+str("%.2f" % petotal)+"%)")
     ax1.set_xlabel("PC 1")
     ax1.set_ylabel("PC 2")
+    
+    #------------------
+    #Write Plot to File
+    #------------------
     fig.savefig(out_file+".png", dpi=300, format='png', bbox_extra_artists=[lgd], bbox_inches='tight')
-    #print(pcatotal.explained_variance_ratio_)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
